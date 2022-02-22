@@ -5,12 +5,9 @@ import Sidebar from './Sidebar'
 import Feed from './Feed.js'
 import Login from './Login.js'
 import {selectUser} from './features/userSlice'
-import rootReducer from './features/reducer'
-import { createStore } from 'redux';
 import {Provider, useSelector} from 'react-redux';
-
+import store from './app/store'
 const AppWrapper = () => {
-  const store = createStore(rootReducer)
 
   return (
     <Provider store={store}> 

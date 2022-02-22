@@ -10,19 +10,19 @@ function Login() {
     const [name,setName] = useState("");
     const [profilePic,setprofilePic] = useState("");
     const dispatch = useDispatch();
-
+    
     const register = () =>{
         if (!name){
             return alert("Please enter a full name!")
         }
         createUserWithEmailAndPassword(Auth,email,password).then((userCredential)=>{
-            updateProfile(userCredential.currentUser,{
+            updateProfile(userCredential.user,{
                 displayName: name,
                 photoURL:profilePic,
-            }).then(()=>{
+            }).catch(error=>alert(error)).then(()=>{
                 dispatch(login({
-                    email:userCredential.currentUser.email,
-                    uid:userCredential.currentUser.uid,
+                    email:userCredential.user.email,
+                    uid:userCredential.user.uid,
                     displayName:name,
                     photoUrl:profilePic,
                 }))

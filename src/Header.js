@@ -10,8 +10,8 @@ function Header() {
           <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="" />
             <div className='header__search'>
                 <SearchIcon/>
-                <input type="text"/>
-            </div>
+                <input placeholder='Search' type="text"/>
+            </div> 
         </div>  
         <div className='header__right'>
             <HeaderOption Icon={Home} title="Home" />

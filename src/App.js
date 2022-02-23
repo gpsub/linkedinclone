@@ -4,23 +4,24 @@ import Header from './Header';
 import Sidebar from './Sidebar'
 import Feed from './Feed.js'
 import Login from './Login.js'
-import {login, selectUser} from './features/userSlice'
-import {Provider, useSelector} from 'react-redux';
+import { selectUser} from './features/userSlice'
+import {Provider, useDispatch, useSelector} from 'react-redux';
 import store from './app/store'
+import { login } from './features/userSlice';
 import { Auth } from './firebase';
-import { useDispatch } from 'react-redux';
 const AppWrapper = () => {
 
   return (
     <Provider store={store}> 
-      <App /> 
+      <App/> 
     </Provider>
   )
 }
 
 function App() {
-  const user = useSelector(selectUser)
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
+
   useEffect(()=>{
     Auth.onAuthStateChanged((userAuth)=>{
       if(userAuth){
@@ -31,12 +32,11 @@ function App() {
             displayName:userAuth.displayName,
             photoUrl: userAuth.photoUrl,
           })
-         
         )
       }
     })
-  })
-  return (
+  }) 
+  return ( 
     <div className="app">
         <Header/>
  {!user ? (<Login/>) : (

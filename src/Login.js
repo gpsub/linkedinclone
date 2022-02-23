@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from './features/userSlice';
 import { Auth } from './firebase';
@@ -10,7 +10,7 @@ function Login() {
     const [name,setName] = useState("");
     const [profilePic,setprofilePic] = useState("");
     const dispatch = useDispatch();
-    
+   
     const register = () =>{
         if (!name){
             return alert("Please enter a full name!")

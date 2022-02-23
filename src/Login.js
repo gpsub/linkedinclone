@@ -1,16 +1,17 @@
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import React, {useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from './features/userSlice';
 import { Auth } from './firebase';
 import "./login.css"
+
 function Login() {
+    const dispatch = useDispatch();
+
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [name,setName] = useState("");
     const [profilePic,setprofilePic] = useState("");
-    const dispatch = useDispatch();
-   
     const register = () =>{
         if (!name){
             return alert("Please enter a full name!")
@@ -19,7 +20,7 @@ function Login() {
             updateProfile(userCredential.user,{
                 displayName: name,
                 photoURL:profilePic,
-            }).catch(error=>alert(error)).then(()=>{
+            }).then(()=>{
                 dispatch(login({
                     email:userCredential.user.email,
                     uid:userCredential.user.uid,
@@ -31,7 +32,18 @@ function Login() {
     };
     const logintoapp = (e) =>{
         e.preventDefault();
-
+        
+        e.preventDefault();
+        signInWithEmailAndPassword(Auth,email,password)
+        .then((userAuth)=>{
+            dispatch(login({
+                email:userAuth.user.email,
+                uid:userAuth.user.uid,
+                displayName:userAuth.user.displayName,
+                photoUrl:userAuth.user.photoURL,
+            }))
+        }).catch((error)=>alert(error))
+        
     };
     return (
         <div className='login'>

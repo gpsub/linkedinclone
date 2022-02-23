@@ -21,16 +21,15 @@ const AppWrapper = () => {
 function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-
   useEffect(()=>{
     Auth.onAuthStateChanged((userAuth)=>{
       if(userAuth){
         dispatch(
           login({
-            email: userAuth.email,
-            uid: userAuth.uid,
-            displayName:userAuth.displayName,
-            photoUrl: userAuth.photoUrl,
+            email: userAuth.user.email,
+            uid: userAuth.user.uid,
+            displayName:userAuth.user.displayName,
+            photoUrl: userAuth.user.photoUrl,
           })
         )
       }

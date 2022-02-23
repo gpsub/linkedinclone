@@ -5,8 +5,10 @@ import HeaderOption from './headerOption.js';
 import { Chat, Home, Notifications, SupervisorAccount } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { Auth } from './firebase';
-import {logout} from './features/userSlice'
+import {logout, selectUser} from './features/userSlice'
+import { useSelector } from 'react-redux';
 function Header() {
+    const user = useSelector(selectUser)
     const dispatch = useDispatch()
     const logoutofapp = () =>{
             dispatch(logout())
@@ -21,11 +23,12 @@ function Header() {
             </div> 
         </div>  
         <div className='header__right'>
-            <HeaderOption Icon={Home} title="Home" />
-            <HeaderOption Icon={SupervisorAccount} title="My Network"/>
-            <HeaderOption Icon={Chat} title="Messaging"/>
-            <HeaderOption Icon={Notifications} title="Notifications"/>
-            <HeaderOption avatar="https://img.icons8.com/color/50/000000/ferrari-badge.png" onClick={logoutofapp} title="me"/>
+        { user && <HeaderOption Icon={Home} title="Home" />}
+         {user &&   <HeaderOption Icon={SupervisorAccount} title="My Network"/>}
+         {user &&  <HeaderOption Icon={Chat} title="Messaging"/>}
+         {user && <HeaderOption Icon={Notifications} title="Notifications"/>}
+           
+         {user && <HeaderOption avatar="https://img.icons8.com/color/50/000000/ferrari-badge.png" onClick={logoutofapp} title="me"/>}
     </div>
     </div>);
 }

@@ -6,10 +6,14 @@ import { onSnapshot,serverTimestamp, collection, addDoc,orderBy, query } from "f
 
 import InputOption from './InputOption';
 import Post from './Post.js'
+import { useSelector } from 'react-redux';
+import { selectUser } from './features/userSlice';
 function Feed() {
+
     const [input,setInput] = useState('')
     const [posts,setPosts]= useState([]);
-// by mistake put timestamp as photourl, have to rename it afterwards
+    const user = useSelector(selectUser)
+    // by mistake put timestamp as photourl, have to rename it afterwards
     useEffect(()=>{
         const q = query(collection(db,"posts"),orderBy("photoUrl","desc"))
          onSnapshot(q,(snapshot) => {
@@ -26,10 +30,12 @@ function Feed() {
     const sendPost = e =>{
         e.preventDefault();
         addDoc(collection(db, "posts"), {
-            name:'Giri Prasad',
-            description:'this is a test messg',
+            name:user.displayName,
+            description:user.email,
             message: input,
-            photoUrl:serverTimestamp(), 
+            photoURL:user.photoUrl,
+            photoUrl:serverTimestamp(),
+
           })
     }
     return (
@@ -38,7 +44,7 @@ function Feed() {
         <div className='feed_input'>
         <Create />
         <form>
-            <input value={input} onChange = {e=> setInput(e.target.value)} type="text" />
+            <input value={input} placeholder="Type something and hit Enter!" onChange = {e=> setInput(e.target.value)} type="text" />
             <button onClick={sendPost} type="submit">Send</button>
         </form>
         </div>
@@ -49,12 +55,13 @@ function Feed() {
             <InputOption Icon={CalendarViewDay} title="Write Article" color="#7FC15E"/>
         </div>
         </div>
-        {posts.map(({id,data:{ name,description,message,photoUrl}})=>(
+        {posts.map(({id,data:{ name,description,message,photoURL}})=>(
             <Post 
                 key={id}
                 name={name}
                 description={description}
                 message={message}
+                photoUrl={photoURL}
             />
         ))}
 

@@ -33,7 +33,6 @@ function Login() {
     const logintoapp = (e) =>{
         e.preventDefault();
         
-        e.preventDefault();
         signInWithEmailAndPassword(Auth,email,password)
         .then((userAuth)=>{
             dispatch(login({
